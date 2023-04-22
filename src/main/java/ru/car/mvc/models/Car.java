@@ -1,6 +1,7 @@
 package ru.car.mvc.models;
 
 import lombok.Data;
+import ru.car.mvc.validation.EmailVerified;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -49,6 +50,7 @@ public class Car {
     @Column(name = "email")
     @NotBlank(message = "field cannot be empty")
     @Email(message = "isn't email")
+    @EmailVerified
     private String email;
 
 

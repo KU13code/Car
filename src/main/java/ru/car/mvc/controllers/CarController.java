@@ -35,31 +35,36 @@ public class CarController {
 
     @GetMapping("/create")
     public String carCreate(Model model){
+        model.addAttribute("create", true);
         model.addAttribute("car", new Car());
-        return "car-create";
+        return "car-create-update";
     }
 
-    @PostMapping("/create")
+
+    @GetMapping("/update/{id}")
+    public String carUpdate(@PathVariable("id") int id, Model model){
+        model.addAttribute("create", false);
+        model.addAttribute("car",carService.getById(id));
+        return "car-create-update";
+
+    }
+
+    @PostMapping("/create-update")
     public String carCreate(@Valid @ModelAttribute("car") Car car, BindingResult result){
-        if (result.hasErrors()) return "car-create";
+        if (result.hasErrors()) return "car-create-update";
             carService.create(car);
             return "redirect:/";
 
     }
 
-    @GetMapping("/update/{id}")
-    public String carUpdate(@PathVariable("id") int id, Model model){
-        model.addAttribute("car",carService.getById(id));
-        return "car-update";
 
-    }
 
-    @PostMapping("/update")
-    public String carUpdate(@Valid @ModelAttribute("car") Car car, BindingResult result){
-        if (result.hasErrors()) return "car-update";
-        carService.create(car);
-        return "redirect:/";
-    }
+//    @PostMapping("/update")
+//    public String carUpdate(@Valid @ModelAttribute("car") Car car, BindingResult result){
+//        if (result.hasErrors()) return "car-update";
+//        carService.create(car);
+//        return "redirect:/";
+//    }
 
     @PostMapping("/delete/{id}")
     public String carDelete(@PathVariable("id") int id){
